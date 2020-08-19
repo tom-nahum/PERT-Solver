@@ -1,0 +1,13 @@
+C:\Users\USER\.CLion2019.3\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver
+CMake Warning at /cygdrive/c/Users/USER/.CLion2019.3/system/cygwin_cmake/share/cmake-3.15.3/Modules/FindBoost.cmake:1144 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /cygdrive/c/Users/USER/.CLion2019.3/system/cygwin_cmake/share/cmake-3.15.3/Modules/FindBoost.cmake:1266 (_Boost_COMPONENT_DEPENDENCIES)
+  /cygdrive/c/Users/USER/.CLion2019.3/system/cygwin_cmake/share/cmake-3.15.3/Modules/FindBoost.cmake:1904 (_Boost_MISSING_DEPENDENCIES)
+  CMakeLists.txt:11 (find_package)
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug

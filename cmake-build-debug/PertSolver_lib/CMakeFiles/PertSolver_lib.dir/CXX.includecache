@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.cpp
+PertProblem.h
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.h
+cmath
+-
+iostream
+-
+
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.h
+string
+-
+

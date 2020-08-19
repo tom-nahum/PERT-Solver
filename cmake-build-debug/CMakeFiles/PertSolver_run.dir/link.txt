@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/PertSolver_run.dir/main.cpp.o  -o PertSolver_run.exe -Wl,--out-implib,libPertSolver_run.dll.a -Wl,--major-image-version,0,--minor-image-version,0 PertSolver_lib/libPertSolver_lib.a 
