@@ -8,6 +8,7 @@
 // ------------------------------ includes ------------------------------
 #include "gtest/gtest.h"
 #include "PertProblem.h"
+#include <algorithm>
 
 // -------------------------- const definitions -------------------------
 #define A 0
@@ -24,11 +25,11 @@
 // ------------------------------ functions -----------------------------
 
 
-TEST(PertSolverTestSuite, ESEF_Test1)
+TEST(PertSolverTestSuite, SanityCheck)
 {
     int activities = 1;
     PertProblem p = PertProblem(activities);
-    p.preActivities[A] = INIT_ACTIVITY;
+    p.preActivities[A] = INIT_ACT;
     p.times[A] = 3;
     p.calcESEF();
     ASSERT_EQ(p.getNumOfActivities(), activities);
@@ -39,36 +40,52 @@ TEST(PertSolverTestSuite, ESEF_Test1)
 }
 
 
-
-TEST(PertSolverTestSuite, ESEF_Test2)
+TEST(PertSolverTestSuite, PERT1)
 {
     int activities = 9;
     PertProblem p = PertProblem(activities);
-    p.preActivities[A] = INIT_ACTIVITY;
-    p.preActivities[B * activities] = INIT_ACTIVITY;
-    p.preActivities[C * activities] = INIT_ACTIVITY;
-    p.preActivities[D * activities] = A;
-    p.preActivities[E * activities] = A;
-    p.preActivities[E * activities] = B;
-    p.preActivities[E * activities] = C;
-    p.preActivities[F * activities] = A;
-    p.preActivities[F * activities] = B;
-    p.preActivities[F * activities] = C;
-    p.preActivities[G * activities] = C;
-    p.preActivities[H * activities] = D;
-    p.preActivities[H * activities] = E;
-    p.preActivities[I * activities] = D;
-    p.preActivities[I * activities] = E;
-    p.preActivities[I * activities] = F;
-    p.preActivities[I * activities] = G;
-    p.times[A] = 5;
-    p.times[B] = 3;
-    p.times[C] = 2;
-    p.times[D] = 7;
-    p.times[E] = 5;
-    p.times[F] = 6;
-    p.times[G] = 2;
-    p.times[H] = 4;
-    p.times[I] = 7;
+    int toPreAct[] = {INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      A, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      A, B, C, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      A, B, C, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      C, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      D, E, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      D, E, F, G, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+    std::copy(toPreAct, toPreAct+activities*activities, p.preActivities);
+    int toTimes[] = {5, 3, 2, 7, 5, 6, 2, 4, 7};
+    std::copy(toTimes, toTimes + activities, p.times);
+    p.calcESEF();
+    std::string ES;
+    std::string EF;
+    p.printESEF(ES, EF);
+    ASSERT_EQ(ES, "0 0 0 5 5 5 2 12 12 ");
+    ASSERT_EQ(EF, "5 3 2 12 10 11 4 16 19 ");
+}
 
+TEST(PertSolverTestSuite, PERT3)
+{
+    int activities = 10;
+    PertProblem p = PertProblem(activities);
+    int toPreAct[] = {INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      INIT_ACT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      A, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      A, B, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      B, C, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      C, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      C, D, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY,
+                      E, F, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY};
+    std::copy(toPreAct, toPreAct+activities*activities, p.preActivities);
+    int toTimes[] = {5,2,3,7,9,2,4,3,8,4};
+    std::copy(toTimes, toTimes + activities, p.times);
+    p.calcESEF();
+    std::string ES;
+    std::string EF;
+    p.printESEF(ES, EF);
+    ASSERT_EQ(ES, "0 0 0 0 5 5 3 3 7 14 ");
+    ASSERT_EQ(EF, "5 2 3 7 14 7 7 6 15 18 ");
+    p.printDataTable();
 }

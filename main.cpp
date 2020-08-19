@@ -66,7 +66,7 @@ int preActParser(int numOfActivities, PertProblem &p, std::string &preStr)
         std::string &curSubString = preArr[i];
         if (curSubString == "-")
         {
-            p.preActivities[i * numOfActivities]= INIT_ACTIVITY;
+            p.preActivities[i * numOfActivities]= INIT_ACT;
             continue;
         }
         std::vector<std::string> curPreArr;

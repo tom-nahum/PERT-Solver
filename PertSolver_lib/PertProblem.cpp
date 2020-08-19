@@ -19,15 +19,15 @@ void PertProblem::initArrays() const
 {
     for (int i = 0; i < numOfActivities; i++)
     {
-        times[i] = EMPTY_CELL;
-        _ES[i] = EMPTY_CELL;
-        _EF[i] = EMPTY_CELL;
-        _LF[i] = EMPTY_CELL;
-        _LS[i] = EMPTY_CELL;
-        _SL[i] = EMPTY_CELL;
+        times[i] = EMPTY;
+        _ES[i] = EMPTY;
+        _EF[i] = EMPTY;
+        _LF[i] = EMPTY;
+        _LS[i] = EMPTY;
+        _SL[i] = EMPTY;
         for (int j = 0; j < numOfActivities; j++)
         {
-            preActivities[i * numOfActivities + j] = EMPTY_CELL;
+            preActivities[i * numOfActivities + j] = EMPTY;
         }
     }
 }
@@ -59,27 +59,32 @@ int PertProblem::getNumOfActivities()
 
 void PertProblem::printDataTable()
 {
-    std::cout << "Act\tPre\t\tT\tES\tEF\tLF\tLS\tSL\n";
+    std::string toABC[] = {"A","B","C","D","E","F","G","H","I","J"};
+    std::string space = std::string(numOfActivities*2-4,' ');
+    std::cout << "Act\tPre"<<space<<"T\tES\tEF\tLF\tLS\tSL\n";
     for (int i = 0; i < numOfActivities; i++)
     {
-        std::cout << i << "\t";
+        std::cout << toABC[i] << "\t";
         for (int j = 0; j < numOfActivities; j++)
         {
             int curPre = preActivities[i * numOfActivities + j];
-            if (curPre == INIT_ACTIVITY)
+            if (curPre == INIT_ACT)
             {
                 std::cout << '-';
             }
-            else if (curPre != EMPTY_CELL)
+            else if (curPre != EMPTY)
             {
-                std::cout << curPre;
-                if (preActivities[i * numOfActivities + j + 1] != EMPTY_CELL)
+                std::cout << toABC[curPre];
+                if (preActivities[i * numOfActivities + j + 1] != EMPTY)
                 {
                     std::cout << ',';
                 }
             }
+            else{
+                std::cout<<' '<<' ';
+            }
         }
-        std::cout << "\t\t" << times[i] << "\t" << _ES[i] << "\t" <<
+        std::cout << times[i] << "\t" << _ES[i] << "\t" <<
                   _EF[i] << "\t" << _LF[i] << "\t" << _LS[i] << "\t" << _SL[i] << std::endl;
     }
 }
@@ -99,9 +104,9 @@ void PertProblem::findMaxPreEF(int i, int &filled)
     for (int j = i * numOfActivities; j < (i * numOfActivities) + numOfActivities; j++)
     {
         int activity = preActivities[j];
-        if (activity != EMPTY_CELL)
+        if (activity != EMPTY)
         {
-            if (_EF[activity] == EMPTY_CELL)
+            if (_EF[activity] == EMPTY)
             { //in case that we didn't fiiled a pre activity EF
                 return; //we skeep the current activity for now, and back to it in the next iteration.
             }
@@ -118,10 +123,10 @@ void PertProblem::calcESEF()
     int filled = 0;
     while (filled != numOfActivities)
     {
-        for (int i = 0; i < numOfActivities && (_EF[i] == EMPTY_CELL); i++)
+        for (int i = 0; i < numOfActivities && (_EF[i] == EMPTY); i++)
         {
             int curActivity = preActivities[i * numOfActivities];
-            if (curActivity == INIT_ACTIVITY)
+            if (curActivity == INIT_ACT)
             {
                 _ES[i] = 0;
                 _EF[i] = times[i];

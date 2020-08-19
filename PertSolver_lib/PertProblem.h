@@ -11,8 +11,8 @@
 // -------------------------- const definitions -------------------------
 #ifndef PERT_SOLVER_PERTPROBLEM_H
 #define PERT_SOLVER_PERTPROBLEM_H
-#define EMPTY_CELL -2
-#define INIT_ACTIVITY -1
+#define EMPTY -2
+#define INIT_ACT -1
 
 // ------------------------------ functions -----------------------------
 
