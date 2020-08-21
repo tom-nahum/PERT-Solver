@@ -7,6 +7,7 @@
 
 // ------------------------------ includes ------------------------------
 #include <string>
+#include <vector>
 
 // -------------------------- const definitions -------------------------
 #ifndef PERT_SOLVER_PERTPROBLEM_H
@@ -19,13 +20,13 @@
 class PertProblem
 {
 public:
-    explicit PertProblem(int numOfActivities, int* preActivities, int* times);
+    explicit PertProblem(int numOfActivities, const int* preActivities, const int* times);
     ~PertProblem();
-    int getNumOfActivities();
     void calcESEF();
+    void calcLFLS();
     void solve();
     void printDataTable();
-    void printESEF(std::string &ES, std::string &EF) const;
+    void outputData(std::string &ES, std::string &EF, std::string &LF, std::string &LS, std::string &SL) const;
 
 private:
     int _numOfActivities;
@@ -37,6 +38,8 @@ private:
     int* _LS;
     int* _SL;
     void findMaxPreEF(int i, int& filled);
+
+    bool canCalcLF(int curAct, std::vector<int> &lsOfPre, bool &found);
 };
 
 

@@ -94,7 +94,7 @@ int Parser::parsePreAct(int numOfActivities, int *preActivities, const std::stri
 }
 
 
-int Parser::parseActivityNum(const std::string &activitiesStr, int &numOfActivities)
+int Parser::parseActivitiesNum(const std::string &activitiesStr, int &numOfActivities)
 {
     if (Parser::inputIsNotInt(activitiesStr))
     {

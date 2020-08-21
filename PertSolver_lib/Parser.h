@@ -25,7 +25,7 @@ public:
     static bool inputIsNotInt(const std::string &input);
     static int parseTimes(int numOfActivities, int* times, const std::string &timesStr);
     static int parsePreAct(int numOfActivities, int* preActivities,const std::string &preStr);
-    static int parseActivityNum(const std::string &activitiesStr, int& numOfActivities);
+    static int parseActivitiesNum(const std::string &activitiesStr, int& numOfActivities);
 };
 
 

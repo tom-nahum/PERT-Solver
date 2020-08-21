@@ -337,6 +337,8 @@ map
 ../PertSolver_lib/PertProblem.h
 string
 -
+vector
+-
 
 /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/PertSolverTest.cpp
 gtest/gtest.h
