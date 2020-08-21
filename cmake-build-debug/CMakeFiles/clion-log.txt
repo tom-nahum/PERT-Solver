@@ -5,7 +5,7 @@ CMake Warning at /cygdrive/c/Users/USER/.CLion2019.3/system/cygwin_cmake/share/c
 Call Stack (most recent call first):
   /cygdrive/c/Users/USER/.CLion2019.3/system/cygwin_cmake/share/cmake-3.15.3/Modules/FindBoost.cmake:1266 (_Boost_COMPONENT_DEPENDENCIES)
   /cygdrive/c/Users/USER/.CLion2019.3/system/cygwin_cmake/share/cmake-3.15.3/Modules/FindBoost.cmake:1904 (_Boost_MISSING_DEPENDENCIES)
-  CMakeLists.txt:11 (find_package)
+  PertSolver_lib/CMakeLists.txt:10 (find_package)
 
 
 -- Configuring done

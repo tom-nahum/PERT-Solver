@@ -1,2 +1,2 @@
-/usr/bin/ar.exe qc libPertSolver_lib.a  CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.o
+/usr/bin/ar.exe qc libPertSolver_lib.a  CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.o CMakeFiles/PertSolver_lib.dir/Parser.cpp.o
 /usr/bin/ranlib.exe libPertSolver_lib.a

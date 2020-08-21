@@ -10,7 +10,6 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "C:/local/boost_1_74_0"
   "../PertSolver_lib"
   "../Google_tests/lib/googlemock/include"
   "../Google_tests/lib/googlemock"

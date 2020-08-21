@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTH
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -IC:/local/boost_1_74_0 -I/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib -isystem /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/lib/googletest/include -isystem /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/lib/googletest 
+CXX_INCLUDES = -I/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib -isystem /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/lib/googletest/include -isystem /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/lib/googletest 
 

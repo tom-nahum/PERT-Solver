@@ -7,10 +7,10 @@
 
 // ------------------------------ includes ------------------------------
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include "PertProblem.h"
-#include <boost/algorithm/string.hpp>
-#include <vector>
+#include "Parser.h"
 
 // -------------------------- const definitions -------------------------
 #define WELCOME "Welcome to PERT Solver!"
@@ -21,83 +21,6 @@
 
 // ------------------------------ functions -----------------------------
 
-bool inputIsNotInt(const std::string &input)
-{
-    for (const auto &c: input)
-    {
-        if (!isdigit(c))
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-int timesParser(int numOfActivities, PertProblem &p, std::string &timesStr)
-{
-    std::vector<std::string> timesArr;
-    boost::split(timesArr, timesStr, boost::is_any_of(","));
-    if (timesArr.size() != numOfActivities)
-    {
-        return EXIT_FAILURE;
-    }
-    for (int i = 0; i < timesArr.size(); i++)
-    {
-        if (inputIsNotInt(timesArr[i]))
-        {
-            return EXIT_FAILURE;
-        }
-        int curTime = std::stoi(timesArr[i]);
-        p.times[i]= curTime;
-    }
-    return EXIT_SUCCESS;
-}
-
-int preActParser(int numOfActivities, PertProblem &p, std::string &preStr)
-{
-    std::vector<std::string> preArr;
-    boost::split(preArr, preStr, boost::is_any_of(";"));
-    if (preArr.size() != numOfActivities)
-    {
-        return EXIT_FAILURE;
-    }
-    for (int i = 0; i < numOfActivities; i++)
-    {
-        std::string &curSubString = preArr[i];
-        if (curSubString == "-")
-        {
-            p.preActivities[i * numOfActivities]= INIT_ACT;
-            continue;
-        }
-        std::vector<std::string> curPreArr;
-        boost::split(curPreArr, curSubString, boost::is_any_of(","));
-        for (int j = 0; j < curPreArr.size(); j++)
-        {
-            if (inputIsNotInt(curPreArr[j]))
-            {
-                return EXIT_FAILURE;
-            }
-            int curTime = std::stoi(curPreArr[j]);
-            p.preActivities[i * numOfActivities + j]= curTime;
-        }
-    }
-    return EXIT_SUCCESS;
-}
-
-int activityParser(const std::string &activitiesStr, int& numOfActivities)
-{
-    if (inputIsNotInt(activitiesStr))
-    {
-        return EXIT_FAILURE;
-    }
-    numOfActivities = std::stoi(activitiesStr);
-    if (numOfActivities == 0)
-    {
-        return EXIT_FAILURE;
-    }
-    return EXIT_SUCCESS;
-}
-
 int userInterface()
 {
     std::cout << WELCOME << std::endl;
@@ -105,15 +28,16 @@ int userInterface()
     std::string activitiesStr;
     std::cin >> activitiesStr;
     int numOfActivities = 0;
-    if (activityParser(activitiesStr, numOfActivities)){
+    if (Parser::parseActivityNum(activitiesStr, numOfActivities)){
         std::cerr << INPUT_ERROR << std::endl;
         return EXIT_FAILURE;
     }
-    PertProblem p = PertProblem(numOfActivities);
+    int* preActivities = new int[numOfActivities*numOfActivities];
+    std::fill(preActivities,preActivities+numOfActivities*numOfActivities,EMPTY);
     std::cout << TYPE_PRE_ACT << std::endl;
     std::string preStr;
     std::cin >> preStr;
-    if (preActParser(numOfActivities, p, preStr))
+    if (Parser::parsePreAct(numOfActivities, preActivities, preStr))
     {
         std::cerr << INPUT_ERROR << std::endl;
         return EXIT_FAILURE;
@@ -121,11 +45,16 @@ int userInterface()
     std::cout << TYPE_TIMES << std::endl;
     std::string timesStr;
     std::cin >> timesStr;
-    if (timesParser(numOfActivities, p, timesStr))
+    int* times = new int[numOfActivities];
+    std::fill(times,times+numOfActivities,EMPTY);
+    if (Parser::parseTimes(numOfActivities, times, timesStr))
     {
         std::cerr << INPUT_ERROR << std::endl;
         return EXIT_FAILURE;
     }
+    PertProblem p = PertProblem(numOfActivities,preActivities,times);
+    delete[] preActivities;
+    delete[] times;
     p.printDataTable();
     return EXIT_SUCCESS;
 }
@@ -134,6 +63,10 @@ int userInterface()
 int main()
 {
     return userInterface();
+    //TODO: create a dictionary to allow the user enter letters and not numbers, and then delete the multiple defines in the test cpp
+    //TODO: create more informatical messages for each error
+    //TODO: for the tests, create in parser class a method that uses all the sub method that parse all the input at onece
+    //TODO: allow the user to make mastakes, while typing pre activities and times, by while loop. if he mistakes just init the array
 }
 
 

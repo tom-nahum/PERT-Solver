@@ -326,6 +326,14 @@ cxxabi.h
 acxx_demangle.h
 -
 
+../PertSolver_lib/Parser.h
+iostream
+-
+PertProblem.h
+../PertSolver_lib/PertProblem.h
+map
+-
+
 ../PertSolver_lib/PertProblem.h
 string
 -
@@ -337,4 +345,6 @@ PertProblem.h
 /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/PertProblem.h
 algorithm
 -
+Parser.h
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/Parser.h
 

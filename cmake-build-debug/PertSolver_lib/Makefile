@@ -171,6 +171,33 @@ PertSolver_lib/fast:
 	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug && $(MAKE) -f PertSolver_lib/CMakeFiles/PertSolver_lib.dir/build.make PertSolver_lib/CMakeFiles/PertSolver_lib.dir/build
 .PHONY : PertSolver_lib/fast
 
+Parser.o: Parser.cpp.o
+
+.PHONY : Parser.o
+
+# target to build an object file
+Parser.cpp.o:
+	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug && $(MAKE) -f PertSolver_lib/CMakeFiles/PertSolver_lib.dir/build.make PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.o
+.PHONY : Parser.cpp.o
+
+Parser.i: Parser.cpp.i
+
+.PHONY : Parser.i
+
+# target to preprocess a source file
+Parser.cpp.i:
+	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug && $(MAKE) -f PertSolver_lib/CMakeFiles/PertSolver_lib.dir/build.make PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.i
+.PHONY : Parser.cpp.i
+
+Parser.s: Parser.cpp.s
+
+.PHONY : Parser.s
+
+# target to generate assembly for a file
+Parser.cpp.s:
+	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug && $(MAKE) -f PertSolver_lib/CMakeFiles/PertSolver_lib.dir/build.make PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.s
+.PHONY : Parser.cpp.s
+
 PertProblem.o: PertProblem.cpp.o
 
 .PHONY : PertProblem.o
@@ -211,6 +238,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... install/local"
 	@echo "... install"
+	@echo "... Parser.o"
+	@echo "... Parser.i"
+	@echo "... Parser.s"
 	@echo "... PertProblem.o"
 	@echo "... PertProblem.i"
 	@echo "... PertProblem.s"

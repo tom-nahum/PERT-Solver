@@ -15,11 +15,15 @@
 
 // ------------------------------ functions -----------------------------
 
-void PertProblem::initArrays() const
+PertProblem::PertProblem(int numOfActivities, int* preActivities, int* times)
+        : _numOfActivities(numOfActivities),
+        _preActivities(new int[numOfActivities * numOfActivities]),
+        _times(new int[numOfActivities]), _ES(new int[numOfActivities]), _EF(new int[numOfActivities]),
+        _LF(new int[numOfActivities]), _LS(new int[numOfActivities]), _SL(new int[numOfActivities])
 {
     for (int i = 0; i < numOfActivities; i++)
     {
-        times[i] = EMPTY;
+        _times[i] = times[i];
         _ES[i] = EMPTY;
         _EF[i] = EMPTY;
         _LF[i] = EMPTY;
@@ -27,24 +31,15 @@ void PertProblem::initArrays() const
         _SL[i] = EMPTY;
         for (int j = 0; j < numOfActivities; j++)
         {
-            preActivities[i * numOfActivities + j] = EMPTY;
+            _preActivities[i * numOfActivities + j] = preActivities[i * numOfActivities + j];
         }
     }
 }
 
-PertProblem::PertProblem(int numOfActivities)
-        : numOfActivities(numOfActivities),
-        preActivities(new int[numOfActivities * numOfActivities]),
-        times(new int[numOfActivities]), _ES(new int[numOfActivities]), _EF(new int[numOfActivities]),
-        _LF(new int[numOfActivities]), _LS(new int[numOfActivities]), _SL(new int[numOfActivities])
-{
-    initArrays();
-}
-
 PertProblem::~PertProblem()
 {
-    delete[] preActivities;
-    delete[] times;
+    delete[] _preActivities;
+    delete[] _times;
     delete[] _ES;
     delete[] _EF;
     delete[] _LF;
@@ -54,20 +49,20 @@ PertProblem::~PertProblem()
 
 int PertProblem::getNumOfActivities()
 {
-    return numOfActivities;
+    return _numOfActivities;
 }
 
 void PertProblem::printDataTable()
 {
     std::string toABC[] = {"A","B","C","D","E","F","G","H","I","J"};
-    std::string space = std::string(numOfActivities*2-4,' ');
+    std::string space = std::string(_numOfActivities * 2 - 4, ' ');
     std::cout << "Act\tPre"<<space<<"T\tES\tEF\tLF\tLS\tSL\n";
-    for (int i = 0; i < numOfActivities; i++)
+    for (int i = 0; i < _numOfActivities; i++)
     {
         std::cout << toABC[i] << "\t";
-        for (int j = 0; j < numOfActivities; j++)
+        for (int j = 0; j < _numOfActivities; j++)
         {
-            int curPre = preActivities[i * numOfActivities + j];
+            int curPre = _preActivities[i * _numOfActivities + j];
             if (curPre == INIT_ACT)
             {
                 std::cout << '-';
@@ -75,7 +70,7 @@ void PertProblem::printDataTable()
             else if (curPre != EMPTY)
             {
                 std::cout << toABC[curPre];
-                if (preActivities[i * numOfActivities + j + 1] != EMPTY)
+                if (_preActivities[i * _numOfActivities + j + 1] != EMPTY)
                 {
                     std::cout << ',';
                 }
@@ -84,14 +79,14 @@ void PertProblem::printDataTable()
                 std::cout<<' '<<' ';
             }
         }
-        std::cout << times[i] << "\t" << _ES[i] << "\t" <<
+        std::cout << _times[i] << "\t" << _ES[i] << "\t" <<
                   _EF[i] << "\t" << _LF[i] << "\t" << _LS[i] << "\t" << _SL[i] << std::endl;
     }
 }
 
 void PertProblem::printESEF(std::string &ES, std::string &EF) const
 {
-    for (int i = 0; i < numOfActivities; i++)
+    for (int i = 0; i < _numOfActivities; i++)
     {
         ES.append(std::to_string(_ES[i])).append(" ");
         EF.append(std::to_string(_EF[i])).append(" ");
@@ -101,9 +96,9 @@ void PertProblem::printESEF(std::string &ES, std::string &EF) const
 void PertProblem::findMaxPreEF(int i, int &filled)
 {
     int max = 0;
-    for (int j = i * numOfActivities; j < (i * numOfActivities) + numOfActivities; j++)
+    for (int j = i * _numOfActivities; j < (i * _numOfActivities) + _numOfActivities; j++)
     {
-        int activity = preActivities[j];
+        int activity = _preActivities[j];
         if (activity != EMPTY)
         {
             if (_EF[activity] == EMPTY)
@@ -114,22 +109,22 @@ void PertProblem::findMaxPreEF(int i, int &filled)
         }
     }
     _ES[i] = max;
-    _EF[i] = _ES[i] + times[i];
+    _EF[i] = _ES[i] + _times[i];
     filled++;
 }
 
 void PertProblem::calcESEF()
 {
     int filled = 0;
-    while (filled != numOfActivities)
+    while (filled != _numOfActivities)
     {
-        for (int i = 0; i < numOfActivities && (_EF[i] == EMPTY); i++)
+        for (int i = 0; i < _numOfActivities && (_EF[i] == EMPTY); i++)
         {
-            int curActivity = preActivities[i * numOfActivities];
+            int curActivity = _preActivities[i * _numOfActivities];
             if (curActivity == INIT_ACT)
             {
                 _ES[i] = 0;
-                _EF[i] = times[i];
+                _EF[i] = _times[i];
                 filled++;
             }
             else

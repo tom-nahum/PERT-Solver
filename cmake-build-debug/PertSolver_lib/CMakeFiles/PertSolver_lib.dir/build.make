@@ -70,17 +70,32 @@ PertSolver_lib/CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.s"
 	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/PertSolver_lib && /usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.cpp -o CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.s
 
+PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.o: PertSolver_lib/CMakeFiles/PertSolver_lib.dir/flags.make
+PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.o: ../PertSolver_lib/Parser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.o"
+	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/PertSolver_lib && /usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PertSolver_lib.dir/Parser.cpp.o -c /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/Parser.cpp
+
+PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PertSolver_lib.dir/Parser.cpp.i"
+	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/PertSolver_lib && /usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/Parser.cpp > CMakeFiles/PertSolver_lib.dir/Parser.cpp.i
+
+PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PertSolver_lib.dir/Parser.cpp.s"
+	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/PertSolver_lib && /usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/Parser.cpp -o CMakeFiles/PertSolver_lib.dir/Parser.cpp.s
+
 # Object files for target PertSolver_lib
 PertSolver_lib_OBJECTS = \
-"CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.o"
+"CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.o" \
+"CMakeFiles/PertSolver_lib.dir/Parser.cpp.o"
 
 # External object files for target PertSolver_lib
 PertSolver_lib_EXTERNAL_OBJECTS =
 
 PertSolver_lib/libPertSolver_lib.a: PertSolver_lib/CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.o
+PertSolver_lib/libPertSolver_lib.a: PertSolver_lib/CMakeFiles/PertSolver_lib.dir/Parser.cpp.o
 PertSolver_lib/libPertSolver_lib.a: PertSolver_lib/CMakeFiles/PertSolver_lib.dir/build.make
 PertSolver_lib/libPertSolver_lib.a: PertSolver_lib/CMakeFiles/PertSolver_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libPertSolver_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libPertSolver_lib.a"
 	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/PertSolver_lib && $(CMAKE_COMMAND) -P CMakeFiles/PertSolver_lib.dir/cmake_clean_target.cmake
 	cd /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/cmake-build-debug/PertSolver_lib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/PertSolver_lib.dir/link.txt --verbose=$(VERBOSE)
 

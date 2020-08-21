@@ -22,5 +22,6 @@ Google_tests/CMakeFiles/Google_Tests_run.dir/PertSolverTest.cpp.o
  ../Google_tests/lib/googletest/include/gtest/internal/gtest-port.h
  ../Google_tests/lib/googletest/include/gtest/internal/gtest-string.h
  ../Google_tests/lib/googletest/include/gtest/internal/gtest-type-util.h
+ ../PertSolver_lib/Parser.h
  ../PertSolver_lib/PertProblem.h
  /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/Google_tests/PertSolverTest.cpp

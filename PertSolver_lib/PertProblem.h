@@ -19,10 +19,7 @@
 class PertProblem
 {
 public:
-    int numOfActivities;
-    int* preActivities;
-    int* times;
-    explicit PertProblem(int numOfActivities);
+    explicit PertProblem(int numOfActivities, int* preActivities, int* times);
     ~PertProblem();
     int getNumOfActivities();
     void calcESEF();
@@ -31,13 +28,15 @@ public:
     void printESEF(std::string &ES, std::string &EF) const;
 
 private:
+    int _numOfActivities;
+    int* _preActivities;
+    int* _times;
     int* _ES;
     int* _EF;
     int* _LF;
     int* _LS;
     int* _SL;
     void findMaxPreEF(int i, int& filled);
-    void initArrays() const;
 };
 
 

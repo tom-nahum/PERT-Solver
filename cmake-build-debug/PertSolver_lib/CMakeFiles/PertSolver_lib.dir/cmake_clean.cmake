@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/PertSolver_lib.dir/Parser.cpp.o"
   "CMakeFiles/PertSolver_lib.dir/PertProblem.cpp.o"
   "libPertSolver_lib.a"
   "libPertSolver_lib.pdb"
