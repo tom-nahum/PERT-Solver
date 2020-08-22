@@ -15,7 +15,7 @@
 
 // ------------------------------ functions -----------------------------
 
-void helperTest(const std::string &activitiesStr, const std::string &preActStr,
+void pertTester(const std::string &activitiesStr, const std::string &preActStr,
                 const std::string &timesStr, const std::string &expectedES,
                 const std::string &expectedEF, const std::string &expectedLF,
                 const std::string &expectedLS, const std::string &expectedSL)
@@ -32,7 +32,12 @@ void helperTest(const std::string &activitiesStr, const std::string &preActStr,
     p.solve();
     std::string ES, EF, LF, LS, SL;
     p.outputData(ES, EF, LF, LS, SL);
-    p.printDataTable();
+    p.printData();
+    //TODO: create operator ==, and then equal the problem to the expected solution (as array?.. friend..)
+    //TODO: i did distructor so i need rule of 5.
+    //TODO: see other c++ principles and try to implement them...
+    //TODO: think about const and shit...
+    //TODO: change the alphabet thing. just start from 1 to make it more convenient...?
     ASSERT_EQ(ES, expectedES);
     ASSERT_EQ(EF, expectedEF);
     ASSERT_EQ(LF, expectedLF);
@@ -52,7 +57,7 @@ TEST(PertSolverTestSuite, PERT1)
     std::string expectedLF = "5 6 6 12 12 12 12 19 19 ";
     std::string expectedLS = "0 3 4 5 7 6 10 15 12 ";
     std::string expectedSL = "0 3 4 0 2 1 8 3 0 ";
-    helperTest(activitiesStr, preActStr, timesStr, expectedES, expectedEF, expectedLF, expectedLS, expectedSL);
+    pertTester(activitiesStr, preActStr, timesStr, expectedES, expectedEF, expectedLF, expectedLS, expectedSL);
 }
 
 TEST(PertSolverTestSuite, PERT3)
@@ -65,5 +70,5 @@ TEST(PertSolverTestSuite, PERT3)
     std::string expectedLF = "5 12 10 10 14 14 18 18 18 18 ";
     std::string expectedLS = "0 10 7 3 5 12 14 15 10 14 ";
     std::string expectedSL = "0 10 7 3 0 7 11 12 3 0 ";
-    helperTest(activitiesStr, preActStr, timesStr, expectedES, expectedEF, expectedLF, expectedLS, expectedSL);
+    pertTester(activitiesStr, preActStr, timesStr, expectedES, expectedEF, expectedLF, expectedLS, expectedSL);
 }

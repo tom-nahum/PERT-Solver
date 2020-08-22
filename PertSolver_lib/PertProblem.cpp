@@ -17,8 +17,10 @@
 
 // ------------------------------ functions -----------------------------
 
+std::string PertProblem::toABC[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+
 PertProblem::PertProblem(int numOfActivities, const int *preActivities, const int *times)
-        : _numOfActivities(numOfActivities),
+        : _numOfActivities(numOfActivities), _maxEF(0),
         _preActivities(new int[numOfActivities * numOfActivities]),
         _times(new int[numOfActivities]), _ES(new int[numOfActivities]), _EF(new int[numOfActivities]),
         _LF(new int[numOfActivities]), _LS(new int[numOfActivities]), _SL(new int[numOfActivities])
@@ -49,9 +51,8 @@ PertProblem::~PertProblem()
     delete[] _SL;
 }
 
-void PertProblem::printDataTable()
+void PertProblem::printData()
 {
-    std::string toABC[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     std::string space = std::string(_numOfActivities * 2 - 4, ' ');
     std::cout << "Act\tPre" << space << "T\tES\tEF\tLF\tLS\tSL\n";
     for (int i = 0; i < _numOfActivities; i++)
@@ -80,10 +81,14 @@ void PertProblem::printDataTable()
         std::cout << _times[i] << "\t" << _ES[i] << "\t" <<
                   _EF[i] << "\t" << _LF[i] << "\t" << _LS[i] << "\t" << _SL[i] << std::endl;
     }
+    std::cout << "\n\n";
+    std::cout << "Critical Path is: " << _criticalPath << std::endl;
+    std::cout << "The shortest time to finish the project is: " << _maxEF << std::endl;
 }
 
 void PertProblem::outputData(std::string &ES, std::string &EF, std::string &LF, std::string &LS, std::string &SL) const
 {
+    //TODO: use str copy instead
     for (int i = 0; i < _numOfActivities; i++)
     {
         ES.append(std::to_string(_ES[i])).append(" ");
@@ -147,9 +152,11 @@ bool PertProblem::canCalcLF(int curAct, std::vector<int> &lsOfPre, bool &found)
             {
                 continue;
             }
-            else if (pre == curAct){
+            else if (pre == curAct)
+            {
                 found = true;
-                if (_LS[i]==EMPTY){
+                if (_LS[i] == EMPTY)
+                {
                     return false;
                 }
                 lsOfPre.push_back(_LS[i]);
@@ -163,10 +170,10 @@ bool PertProblem::canCalcLF(int curAct, std::vector<int> &lsOfPre, bool &found)
 void PertProblem::calcLFLS()
 {
     int filled = 0;
-    int maxEF = *std::max_element(_EF,_EF+_numOfActivities);
+    int maxEF = findMaxEF();
     while (filled != _numOfActivities)
     {
-        for (int curAct = _numOfActivities - 1; curAct >= 0 && _LS[curAct]==EMPTY; curAct--) //TODO: is that ok?
+        for (int curAct = _numOfActivities - 1; curAct >= 0 && _LS[curAct] == EMPTY; curAct--)
         {
             //looking for cur activity in pre-activities of other activities:
             bool found = false;
@@ -183,18 +190,68 @@ void PertProblem::calcLFLS()
             }
             else
             {
-                _LF[curAct] = *std::min_element(lsOfPre.begin(),lsOfPre.end());
+                _LF[curAct] = *std::min_element(lsOfPre.begin(), lsOfPre.end());
                 _LS[curAct] = _LF[curAct] - _times[curAct];
             }
         }
     }
 }
 
+int PertProblem::findMaxEF() const
+{
+    return *std::max_element(_EF, _EF + _numOfActivities);
+}
+
 void PertProblem::solve()
 {
     calcESEF();
     calcLFLS();
-    for (int i=0;i<_numOfActivities;i++){
-        _SL[i] = _LF[i]-_EF[i];
+    for (int i = 0; i < _numOfActivities; i++)
+    {
+        _SL[i] = _LF[i] - _EF[i];
+        if (_SL[i] == 0)
+        {
+            _criticalActs.emplace_back(i, false);
+        }
+    }
+    findCriticalPath();
+    _maxEF = findMaxEF();
+}
+
+void PertProblem::findCriticalPath()
+{
+    int numOfActs = _criticalActs.size();
+    int initAct = 0;
+    for (auto &_criticalAct : _criticalActs)
+    {
+        if (_preActivities[_criticalAct.first * _numOfActivities] == INIT_ACT)
+        {
+            initAct = _criticalAct.first;
+            _criticalAct.second = true;
+            numOfActs--;
+        }
+    }
+    _criticalPath.append(toABC[initAct]);
+    int preAct = initAct;
+    while (numOfActs != 0)
+    {
+        for (auto &_criticalAct : _criticalActs)
+        {
+            if (!_criticalAct.second)
+            {
+                int act = _criticalAct.first;
+                for (int j = _numOfActivities * act; j < _numOfActivities * act + _numOfActivities && j!=EMPTY; j++)
+                {
+                    if (preAct == _preActivities[j])
+                    {
+                        _criticalPath.append("->");
+                        _criticalPath.append(toABC[act]);
+                        numOfActs--;
+                        preAct = act;
+                        _criticalAct.second = true;
+                    }
+                }
+            }
+        }
     }
 }

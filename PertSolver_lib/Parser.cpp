@@ -6,7 +6,6 @@
  */
 
 // ------------------------------ includes ------------------------------
-#include <iostream>
 #include <vector>
 #include "Parser.h"
 #include <boost/algorithm/string.hpp>
@@ -51,6 +50,9 @@ int Parser::parseTimes(int numOfActivities, int *times, const std::string &times
 
 int Parser::parsePreAct(int numOfActivities, int *preActivities, const std::string &preStr)
 {
+    //This map is bad practice, but as inspiration from the course exercises,
+    // i wanted to allow the user to enter the data as seen in class,
+    // so i decided that representing activities by letter is more authentic.
     std::map<std::string, int> map = {{"A", 0},
                                       {"B", 1},
                                       {"C", 2},
