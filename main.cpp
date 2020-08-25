@@ -70,7 +70,7 @@ int enterActivities()
 
 void userInterface()
 {
-    std::cout << WELCOME << std::endl<< INSTRUCTIONS << std::endl;
+    std::cout << WELCOME << std::endl << INSTRUCTIONS << std::endl;
     int numOfActivities = enterActivities();
     int *preActivities = enterPreActivities(numOfActivities);
     int *times = enterTimes(numOfActivities);
@@ -78,7 +78,7 @@ void userInterface()
     delete[] preActivities;
     delete[] times;
     p.solve();
-    p.printData();
+    std::cout << p;
 }
 
 int main()

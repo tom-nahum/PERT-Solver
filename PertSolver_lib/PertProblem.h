@@ -14,8 +14,11 @@
 #define PERT_SOLVER_PERTPROBLEM_H
 #define EMPTY -2
 #define INIT_ACT -1
+#define CRITICAL_PATH "Critical Path is: "
+#define SHORTEST_PATH "The shortest time to finish the project is: "
 
 // ------------------------------ functions -----------------------------
+
 
 class PertProblem
 {
@@ -23,13 +26,10 @@ public:
     static std::string toABC[];
     explicit PertProblem(int numOfActivities, const int* preActivities, const int* times);
     ~PertProblem();
-    void calcESEF();
-    void calcLFLS();
     void solve();
-    void printData();
-    void findCriticalPath();
-    void outputData(std::string &ES, std::string &EF, std::string &LF,
-            std::string &LS, std::string &SL, std::string &path, int& time) const;
+    friend std::ostream& operator<<(std::ostream &os, const PertProblem &p);
+    friend bool operator==(const PertProblem& p, const std::string& s);
+
 private:
     int _numOfActivities;
     int _maxEF;
@@ -42,9 +42,11 @@ private:
     int* _SL;
     std::string _criticalPath;
     std::vector<std::pair<int, bool>> _criticalActs;
+    void calcESEF();
+    void calcLFLS();
+    void findCriticalPath();
     void findMaxPreEF(int i, int& filled);
     bool canCalcLF(int curAct, std::vector<int> &lsOfPre, bool &found);
-
     int findMaxEF() const;
 };
 

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 
 // -------------------------- const definitions -------------------------
 
@@ -52,56 +53,72 @@ PertProblem::~PertProblem()
     delete[] _SL;
 }
 
-void PertProblem::printData()
+std::ostream &operator<<(std::ostream &os, const PertProblem &p)
 {
-    std::string space = std::string(_numOfActivities * 2 - 4, ' ');
-    std::cout << "Act\tPre" << space << "T\tES\tEF\tLF\tLS\tSL\n";
-    for (int i = 0; i < _numOfActivities; i++)
+    std::string space = std::string(p._numOfActivities * 2 - 4, ' ');
+    os << "Act\tPre" << space << "T\tES\tEF\tLF\tLS\tSL\n";
+    for (int i = 0; i < p._numOfActivities; i++)
     {
-        std::cout << toABC[i] << "\t";
-        for (int j = 0; j < _numOfActivities; j++)
+        os << PertProblem::toABC[i] << "\t";
+        for (int j = 0; j < p._numOfActivities; j++)
         {
-            int curPre = _preActivities[i * _numOfActivities + j];
+            int curPre = p._preActivities[i * p._numOfActivities + j];
             if (curPre == INIT_ACT)
             {
-                std::cout << '-';
+                os << '-';
             }
             else if (curPre != EMPTY)
             {
-                std::cout << toABC[curPre];
-                if (_preActivities[i * _numOfActivities + j + 1] != EMPTY)
+                os << PertProblem::toABC[curPre];
+                if (p._preActivities[i * p._numOfActivities + j + 1] != EMPTY)
                 {
-                    std::cout << ',';
+                    os << ',';
                 }
             }
             else
             {
-                std::cout << ' ' << ' ';
+                os << ' ' << ' ';
             }
         }
-        std::cout << _times[i] << "\t" << _ES[i] << "\t" <<
-                  _EF[i] << "\t" << _LF[i] << "\t" << _LS[i] << "\t" << _SL[i] << std::endl;
+        os << p._times[i] << "\t" << p._ES[i] << "\t" <<
+           p._EF[i] << "\t" << p._LF[i] << "\t" << p._LS[i] << "\t" << p._SL[i] << "\n";
     }
-    std::cout << "\n";
-    std::cout << "Critical Path is: " << _criticalPath << std::endl;
-    std::cout << "The shortest time to finish the project is: " << _maxEF << std::endl;
-    std::cout << "\n\n";
+    os << "\n";
+    os << CRITICAL_PATH << p._criticalPath << "\n";
+    os << SHORTEST_PATH << p._maxEF << "\n";
+    os << "\n\n";
+    return os;
 }
 
-void PertProblem::outputData(std::string &ES, std::string &EF, std::string &LF,
-                             std::string &LS, std::string &SL, std::string &path, int &time) const
+bool operator==(const PertProblem &p, const std::string &s)
 {
-    for (int i = 0; i < _numOfActivities; i++)
-    {
-        ES.append(std::to_string(_ES[i])).append(" ");
-        EF.append(std::to_string(_EF[i])).append(" ");
-        LF.append(std::to_string(_LF[i])).append(" ");
-        LS.append(std::to_string(_LS[i])).append(" ");
-        SL.append(std::to_string(_SL[i])).append(" ");
+    std::string expES, expEF, expLF, expLS, expSL, expPath;
+    int expTime = 0;
+    std::vector<std::string> tables;
+    boost::split(tables, s, boost::is_any_of("|"));
+    if (tables.size()!=7){
+        return false;
     }
-    path = _criticalPath;
-    time = _maxEF;
+    expES = tables[0];
+    expEF = tables[1];
+    expLF = tables[2];
+    expLS = tables[3];
+    expSL = tables[4];
+    expPath = tables[5];
+    expTime = std::stoi(tables[6]);
+    std::string ES, EF, LF, LS, SL;
+    for (int i = 0; i < p._numOfActivities; i++)
+    {
+        ES.append(std::to_string(p._ES[i])).append(" ");
+        EF.append(std::to_string(p._EF[i])).append(" ");
+        LF.append(std::to_string(p._LF[i])).append(" ");
+        LS.append(std::to_string(p._LS[i])).append(" ");
+        SL.append(std::to_string(p._SL[i])).append(" ");
+    }
+    return !(ES != expES || EF != expEF || LF != expLF || LS != expLS || SL != expSL
+             || p._criticalPath != expPath || p._maxEF != expTime);
 }
+
 
 void PertProblem::findMaxPreEF(int i, int &filled)
 {
@@ -130,7 +147,8 @@ void PertProblem::calcESEF()
     {
         for (int i = 0; i < _numOfActivities; i++)
         {
-            if (_EF[i] == EMPTY){
+            if (_EF[i] == EMPTY)
+            {
                 int curActivity = _preActivities[i * _numOfActivities];
                 if (curActivity == INIT_ACT)
                 {
@@ -151,7 +169,8 @@ bool PertProblem::canCalcLF(int curAct, std::vector<int> &lsOfPre, bool &found)
 {
     for (int i = _numOfActivities - 1; i >= 0; i--)
     {
-        if (i != curAct){
+        if (i != curAct)
+        {
             for (int j = 0; j < _numOfActivities; j++)
             {
                 int pre = _preActivities[i * _numOfActivities + j];
@@ -182,7 +201,8 @@ void PertProblem::calcLFLS()
     {
         for (int curAct = _numOfActivities - 1; curAct >= 0; curAct--)
         {
-            if( _LS[curAct] == EMPTY){
+            if (_LS[curAct] == EMPTY)
+            {
                 //looking for cur activity in pre-activities of other activities:
                 bool found = false;
                 std::vector<int> lsOfPre;
