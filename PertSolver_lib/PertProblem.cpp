@@ -17,7 +17,8 @@
 
 // ------------------------------ functions -----------------------------
 
-std::string PertProblem::toABC[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+std::string PertProblem::toABC[] = {"A", "B", "C", "D", "E", "F", "G",
+                                    "H", "I", "J", "K", "L", "M", "N"};
 
 PertProblem::PertProblem(int numOfActivities, const int *preActivities, const int *times)
         : _numOfActivities(numOfActivities), _maxEF(0),
@@ -81,14 +82,15 @@ void PertProblem::printData()
         std::cout << _times[i] << "\t" << _ES[i] << "\t" <<
                   _EF[i] << "\t" << _LF[i] << "\t" << _LS[i] << "\t" << _SL[i] << std::endl;
     }
-    std::cout << "\n\n";
+    std::cout << "\n";
     std::cout << "Critical Path is: " << _criticalPath << std::endl;
     std::cout << "The shortest time to finish the project is: " << _maxEF << std::endl;
+    std::cout << "\n\n";
 }
 
-void PertProblem::outputData(std::string &ES, std::string &EF, std::string &LF, std::string &LS, std::string &SL) const
+void PertProblem::outputData(std::string &ES, std::string &EF, std::string &LF,
+                             std::string &LS, std::string &SL, std::string &path, int &time) const
 {
-    //TODO: use str copy instead
     for (int i = 0; i < _numOfActivities; i++)
     {
         ES.append(std::to_string(_ES[i])).append(" ");
@@ -97,6 +99,8 @@ void PertProblem::outputData(std::string &ES, std::string &EF, std::string &LF, 
         LS.append(std::to_string(_LS[i])).append(" ");
         SL.append(std::to_string(_SL[i])).append(" ");
     }
+    path = _criticalPath;
+    time = _maxEF;
 }
 
 void PertProblem::findMaxPreEF(int i, int &filled)
@@ -124,18 +128,20 @@ void PertProblem::calcESEF()
     int filled = 0;
     while (filled != _numOfActivities)
     {
-        for (int i = 0; i < _numOfActivities && (_EF[i] == EMPTY); i++)
+        for (int i = 0; i < _numOfActivities; i++)
         {
-            int curActivity = _preActivities[i * _numOfActivities];
-            if (curActivity == INIT_ACT)
-            {
-                _ES[i] = 0;
-                _EF[i] = _times[i];
-                filled++;
-            }
-            else
-            {
-                findMaxPreEF(i, filled);
+            if (_EF[i] == EMPTY){
+                int curActivity = _preActivities[i * _numOfActivities];
+                if (curActivity == INIT_ACT)
+                {
+                    _ES[i] = 0;
+                    _EF[i] = _times[i];
+                    filled++;
+                }
+                else
+                {
+                    findMaxPreEF(i, filled);
+                }
             }
         }
     }
@@ -143,25 +149,26 @@ void PertProblem::calcESEF()
 
 bool PertProblem::canCalcLF(int curAct, std::vector<int> &lsOfPre, bool &found)
 {
-    for (int i = _numOfActivities - 1; i >= 0 && i != curAct; i--)
+    for (int i = _numOfActivities - 1; i >= 0; i--)
     {
-        for (int j = 0; j < _numOfActivities; j++)
-        {
-            int pre = _preActivities[i * _numOfActivities + j];
-            if (pre == EMPTY)
+        if (i != curAct){
+            for (int j = 0; j < _numOfActivities; j++)
             {
-                continue;
-            }
-            else if (pre == curAct)
-            {
-                found = true;
-                if (_LS[i] == EMPTY)
+                int pre = _preActivities[i * _numOfActivities + j];
+                if (pre == EMPTY)
                 {
-                    return false;
+                    continue;
                 }
-                lsOfPre.push_back(_LS[i]);
+                else if (pre == curAct)
+                {
+                    found = true;
+                    if (_LS[i] == EMPTY)
+                    {
+                        return false;
+                    }
+                    lsOfPre.push_back(_LS[i]);
+                }
             }
-
         }
     }
     return true;
@@ -173,25 +180,27 @@ void PertProblem::calcLFLS()
     int maxEF = findMaxEF();
     while (filled != _numOfActivities)
     {
-        for (int curAct = _numOfActivities - 1; curAct >= 0 && _LS[curAct] == EMPTY; curAct--)
+        for (int curAct = _numOfActivities - 1; curAct >= 0; curAct--)
         {
-            //looking for cur activity in pre-activities of other activities:
-            bool found = false;
-            std::vector<int> lsOfPre;
-            if (!canCalcLF(curAct, lsOfPre, found))
-            {
-                continue; //to the next activity, later we will fill this one.
-            }
-            filled++;
-            if (!found)
-            {
-                _LF[curAct] = maxEF;
-                _LS[curAct] = maxEF - _times[curAct];
-            }
-            else
-            {
-                _LF[curAct] = *std::min_element(lsOfPre.begin(), lsOfPre.end());
-                _LS[curAct] = _LF[curAct] - _times[curAct];
+            if( _LS[curAct] == EMPTY){
+                //looking for cur activity in pre-activities of other activities:
+                bool found = false;
+                std::vector<int> lsOfPre;
+                if (!canCalcLF(curAct, lsOfPre, found))
+                {
+                    continue; //to the next activity, later we will fill this one.
+                }
+                filled++;
+                if (!found)
+                {
+                    _LF[curAct] = maxEF;
+                    _LS[curAct] = maxEF - _times[curAct];
+                }
+                else
+                {
+                    _LF[curAct] = *std::min_element(lsOfPre.begin(), lsOfPre.end());
+                    _LS[curAct] = _LF[curAct] - _times[curAct];
+                }
             }
         }
     }
@@ -240,7 +249,7 @@ void PertProblem::findCriticalPath()
             if (!_criticalAct.second)
             {
                 int act = _criticalAct.first;
-                for (int j = _numOfActivities * act; j < _numOfActivities * act + _numOfActivities && j!=EMPTY; j++)
+                for (int j = _numOfActivities * act; j < _numOfActivities * act + _numOfActivities && j != EMPTY; j++)
                 {
                     if (preAct == _preActivities[j])
                     {

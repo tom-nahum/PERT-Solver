@@ -28,7 +28,8 @@ public:
     void solve();
     void printData();
     void findCriticalPath();
-    void outputData(std::string &ES, std::string &EF, std::string &LF, std::string &LS, std::string &SL) const;
+    void outputData(std::string &ES, std::string &EF, std::string &LF,
+            std::string &LS, std::string &SL, std::string &path, int& time) const;
 private:
     int _numOfActivities;
     int _maxEF;

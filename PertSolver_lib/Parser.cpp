@@ -64,7 +64,9 @@ int Parser::parsePreAct(int numOfActivities, int *preActivities, const std::stri
                                       {"I", 8},
                                       {"J", 9},
                                       {"K", 10},
-                                      {"L", 11}};
+                                      {"L", 11},
+                                      {"M", 12},
+                                      {"N", 13}};
     std::vector<std::string> preArr;
     boost::split(preArr, preStr, boost::is_any_of(";"));
     if (preArr.size() != numOfActivities)
