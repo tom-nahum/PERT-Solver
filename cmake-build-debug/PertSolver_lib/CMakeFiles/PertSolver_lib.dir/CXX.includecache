@@ -6,6 +6,24 @@
 
 #IncludeRegexTransform: 
 
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/Parser.cpp
+vector
+-
+Parser.h
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/Parser.h
+boost/algorithm/string.hpp
+-
+map
+-
+
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/Parser.h
+iostream
+-
+PertProblem.h
+/cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.h
+map
+-
+
 /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.cpp
 PertProblem.h
 /cygdrive/c/Users/USER/Desktop/Tom/My_Projects/PertSolver/PertSolver_lib/PertProblem.h

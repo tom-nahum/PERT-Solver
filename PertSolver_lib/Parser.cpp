@@ -1,8 +1,9 @@
 /**
- * @file
+ * @file Parser.cpp
  * @author  Tom Nahum <tom.nachum@gmail.com>
  *
  * @section DESCRIPTION
+ * An implementation of the parser.h file
  */
 
 // ------------------------------ includes ------------------------------
@@ -10,9 +11,6 @@
 #include "Parser.h"
 #include <boost/algorithm/string.hpp>
 #include <map>
-
-// -------------------------- const definitions -------------------------
-
 
 // ------------------------------ functions -----------------------------
 
@@ -28,6 +26,54 @@ bool Parser::inputIsNotInt(const std::string &input)
     return false;
 }
 
+int Parser::parseActivitiesNum(const std::string &activitiesStr, int &numOfActivities)
+{
+    if (Parser::inputIsNotInt(activitiesStr))
+    {
+        return EXIT_FAILURE;
+    }
+    numOfActivities = std::stoi(activitiesStr);
+    if (numOfActivities == 0) //num of activities cannot be 0.
+    {
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
+}
+
+int Parser::parsePreAct(int numOfActivities, int *preActivities, const std::string &preStr)
+{
+    std::vector<std::string> preArr;
+    boost::split(preArr, preStr, boost::is_any_of(";"));
+    if (preArr.size() != numOfActivities)
+        //if not enough ';' has entered, meaning that the user didn't entered pre activities for some activities.
+    {
+        return EXIT_FAILURE;
+    }
+    for (int curAct = 0; curAct < numOfActivities; curAct++)
+    {
+        std::string &curSubString = preArr[curAct];
+        if (curSubString == "-") //A symbol for an activity with no pre activities.
+        {
+            preActivities[curAct * numOfActivities] = INIT_ACT;
+            continue;
+        }
+        //parse pre activities for cur activity
+        std::vector<std::string> curPreArr;
+        boost::split(curPreArr, curSubString, boost::is_any_of(","));
+        for (int preIdx = 0; preIdx < curPreArr.size(); preIdx++)
+        {
+            if (Parser::inputIsNotInt(curPreArr[preIdx]))
+            {
+                return EXIT_FAILURE;
+            }
+            int curPre = std::stoi(curPreArr[preIdx]);
+            preActivities[curAct * numOfActivities + preIdx] = curPre - 1;
+            //In order to make users life easier, the countdown of the activities starts from 1
+        }
+    }
+    return EXIT_SUCCESS;
+}
+
 int Parser::parseTimes(int numOfActivities, int *times, const std::string &timesStr)
 {
     std::vector<std::string> timesArr;
@@ -38,76 +84,12 @@ int Parser::parseTimes(int numOfActivities, int *times, const std::string &times
     }
     for (int i = 0; i < timesArr.size(); i++)
     {
-        if (Parser::inputIsNotInt(timesArr[i]))
+        if (inputIsNotInt(timesArr[i]))
         {
             return EXIT_FAILURE;
         }
         int curTime = std::stoi(timesArr[i]);
         times[i] = curTime;
-    }
-    return EXIT_SUCCESS;
-}
-
-int Parser::parsePreAct(int numOfActivities, int *preActivities, const std::string &preStr)
-{
-    //This map is bad practice, but as inspiration from the course exercises,
-    // i wanted to allow the user to enter the data as seen in class,
-    // so i decided that representing activities by letter is more authentic.
-    std::map<std::string, int> map = {{"A", 0},
-                                      {"B", 1},
-                                      {"C", 2},
-                                      {"D", 3},
-                                      {"E", 4},
-                                      {"F", 5},
-                                      {"G", 6},
-                                      {"H", 7},
-                                      {"I", 8},
-                                      {"J", 9},
-                                      {"K", 10},
-                                      {"L", 11},
-                                      {"M", 12},
-                                      {"N", 13}};
-    std::vector<std::string> preArr;
-    boost::split(preArr, preStr, boost::is_any_of(";"));
-    if (preArr.size() != numOfActivities)
-    {
-        return EXIT_FAILURE;
-    }
-    for (int i = 0; i < numOfActivities; i++)
-    {
-        std::string &curSubString = preArr[i];
-        if (curSubString == "-")
-        {
-            preActivities[i * numOfActivities] = INIT_ACT;
-            continue;
-        }
-        std::vector<std::string> curPreArr;
-        boost::split(curPreArr, curSubString, boost::is_any_of(","));
-        for (int j = 0; j < curPreArr.size(); j++)
-        {
-            auto itr = map.find(curPreArr[j]);
-            if (itr == map.end())
-            {
-                return EXIT_FAILURE;
-            }
-            int curPre = map[curPreArr[j]];
-            preActivities[i * numOfActivities + j] = curPre;
-        }
-    }
-    return EXIT_SUCCESS;
-}
-
-
-int Parser::parseActivitiesNum(const std::string &activitiesStr, int &numOfActivities)
-{
-    if (Parser::inputIsNotInt(activitiesStr))
-    {
-        return EXIT_FAILURE;
-    }
-    numOfActivities = std::stoi(activitiesStr);
-    if (numOfActivities == 0)
-    {
-        return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
