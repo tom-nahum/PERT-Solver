@@ -1,8 +1,12 @@
 /**
- * @file
+ * @file PertSolverTest.cpp
  * @author  Tom Nahum <tom.nachum@gmail.com>
  *
  * @section DESCRIPTION
+ * Tests for Pert Solver program. The tests includes tests for parser,
+ * and afterwords tests for the whole program. All program tests uses pertTester function,
+ * which simulates Main.cpp. An explanation for each test can be found in
+ * PertSolver\Google_tests\Tests_Info directory.
  */
 
 // ------------------------------ includes ------------------------------
@@ -13,7 +17,10 @@
 
 // ------------------------------ functions -----------------------------
 
-//different numbers of times entered than expected
+/**
+ * Check edge cases of parsing times input. Check that the number of
+ * activities matches the number of times the user entered.
+ */
 TEST(ParserTestSuite, Times1)
 {
     int *times = new int[3];
@@ -22,8 +29,11 @@ TEST(ParserTestSuite, Times1)
     delete[] times;
 }
 
-//Times are not numbers
-TEST(ParserTestSuite, Times2)
+/**
+ * Check edge cases of parsing times input. Check that the times entered are
+ * valid, meaning integers (can be 0).
+ */
+ TEST(ParserTestSuite, Times2)
 {
     int *times = new int[3];
     ASSERT_EQ(Parser::parseTimes(3, times, "1,2,q"), EXIT_FAILURE);
@@ -34,7 +44,10 @@ TEST(ParserTestSuite, Times2)
     delete[] times;
 }
 
-//different numbers of times entered than expected
+/**
+ * Check edge cases of parsing pre Activities input. Check that the number of
+ * activities matches the number of ; the user entered.
+ */
 TEST(ParserTestSuite, PreAct1)
 {
     int *preActs = new int[2];
@@ -43,6 +56,10 @@ TEST(ParserTestSuite, PreAct1)
     delete[] preActs;
 }
 
+/**
+ * Check edge cases of parsing pre Activities input. The activities should be
+ * integers.
+ */
 TEST(ParserTestSuite, PreAct2)
 {
     int *preActs = new int[4];
@@ -54,6 +71,10 @@ TEST(ParserTestSuite, PreAct2)
     delete[] preActs;
 }
 
+/**
+ * Check edge cases of parsing the number of activities input. The activities should be
+ * integers, greater than 0.
+ */
 TEST(ParserTestSuite, ActivitiesNum)
 {
     int activitiesNum = 0;
@@ -63,6 +84,13 @@ TEST(ParserTestSuite, ActivitiesNum)
     ASSERT_EQ(Parser::parseActivitiesNum("A", activitiesNum), EXIT_FAILURE);
 }
 
+/**
+ * A helper function for all following tests. This function simulates the run
+ * of main function of the program. The function gets the input to the problem
+ * (number of activities, pre activities array and times array)
+ * and in addition, the expected solution. Then the function uses solve method,
+ * and compare the given solution to the actual solution.
+ */
 void pertTester(const std::string &activitiesNum, const std::string &preAct,
                 const std::string &times, const std::string &solution)
 {
@@ -78,18 +106,21 @@ void pertTester(const std::string &activitiesNum, const std::string &preAct,
     //Test solving algorithm
     PertProblem p = PertProblem(numOfActivities, preActivities, timesArr);
     p.solve();
-    std::cout << p;
     ASSERT_TRUE(p == solution);
     delete[] preActivities;
     delete[] timesArr;
 }
 
+/**
+ * Generates a string representing the solution, given all the data of the solution. Each data
+ * of the solution will be separated by |. We use this in operator == of pertProblem.cpp
+ */
 void solGenerator(const std::string &ES, const std::string &EF, const std::string &LF,
                   const std::string &LS, const std::string &SL, const std::string &path,
-                  const std::string &shortestTime, std::string &concat)
+                  const std::string &shortestTime, std::string &solution)
 {
-    concat.append(ES + "|" + EF + "|" + LF + "|" + LS + "|" + SL + "|"
-                  + path + "|" + shortestTime);
+    solution.append(ES + "|" + EF + "|" + LF + "|" + LS + "|" + SL + "|"
+                    + path + "|" + shortestTime);
 }
 
 TEST(PertSolverTestSuite, PERT1)

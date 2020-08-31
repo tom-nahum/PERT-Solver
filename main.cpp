@@ -87,7 +87,6 @@ int enterActivities()
     return numOfActivities;
 }
 
-
 /**
  * A main function. Runs the whole program.
  * @return 0 always because if the user's input is somewhat wrong,
