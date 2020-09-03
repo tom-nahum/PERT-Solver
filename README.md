@@ -11,9 +11,8 @@ A project composed of activities, times, and priority relations (AKA pre-activit
 The purpose is to find the minimal time it takes to finish the project, considering 
 the given priority relations and times of each activity. 
 
-## Description 
+## Program Workflow 
 
-The program works as follows:
 * The user enters the data of the problem:
   - The number of activities the project has.
   - The time it takes to execute each activity.
