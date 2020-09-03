@@ -27,7 +27,7 @@ The program works as follows:
     1. ES - Earliest Starting time.
     2. EF - Earliest Finishing time.
     3. LF - Latest Finishing time.
-    4. LS - Latests Starting time.
+    4. LS - Latest Starting time.
     5. SL - Slack value (A time interval which we can delay the execution of this activity, 
             without harm the minimal finish time of the project).
   - The critical path: consist of all the critical activities (activities which it's SL equals 0), 
