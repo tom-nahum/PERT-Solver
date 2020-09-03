@@ -20,7 +20,7 @@ The program works as follows:
   - The priority relations between the activities (meaning that for each activity, 
     the user enters the activities that needs to be done before this activity).
 
-* We parse the input the user entered, and check it's validity
+* We parse the input the user entered, and check it's validity.
 
 * We solve the problem, and output the results:
   - A table with all the relevant data for each activity:
