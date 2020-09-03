@@ -6,7 +6,7 @@ This program solves a given pert problem, using an algorithm learned in course
 
 ## Theoretical Knowledge
 
-Pert problems are related to project administrations.
+Pert problems are related to project management.
 A project composed of activities, times, and priority relations (AKA pre-activities).
 The purpose is to find the minimal time it takes to finish the project, considering 
 the given priority relations and times of each activity. 
