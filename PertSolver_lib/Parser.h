@@ -1,6 +1,7 @@
 /**
  * @file Parser.h
- * @author  Tom Nahum <tom.nachum@gmail.com>
+ * @author  Tom Nahum, https://www.linkedin.com/in/tom-nachum/
+ * @contact tom.nachum@gmail.com, +972-54-540-0958
  *
  * @section DESCRIPTION
  * A static class for parsing user's input.
